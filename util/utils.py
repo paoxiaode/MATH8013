@@ -17,6 +17,8 @@ def func0(xx):
 
 def get_y(xx, alpha=1):
     y_sin = func0(xx)
+    if y_sin.shape[1] != 1:
+        y_sin = np.sum(y_sin,axis=1,keepdims=True)
     if alpha == 0:
         return y_sin
     out_y = np.round(y_sin / alpha)
@@ -26,7 +28,7 @@ def get_y(xx, alpha=1):
 
 def mkdir(fn):  # Create a directory
     if not os.path.isdir(fn):
-        os.mkdir(fn)
+        os.makedirs(fn)
 
 
 def save_fig(pltm, fntmp, fp=0, ax=0, isax=0, iseps=0, isShowPic=0):  # Save the figure

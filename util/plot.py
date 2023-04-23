@@ -35,12 +35,11 @@ def plot_weight(FolderName, R, Rw):
 
 
 def plot_loss(FolderName, R):
-
     plt.figure()
     ax = plt.gca()
-    # y1 = R['loss_test']
+    y1 = R['loss_test']
     y2 = np.asarray(R["loss_train"])
-    # plt.plot(y1,'ro',label='Test')
+    plt.plot(y1,'ro',label='Test')
     plt.plot(y2, "k-", label="Train")
     if len(R["tuning_ind"]) > 0:
         plt.plot(R["tuning_ind"], y2[R["tuning_ind"]], "r*")
@@ -78,14 +77,15 @@ def plot_y(FolderName, R, train_inputs, test_inputs, name=""):
         xy = np.concatenate((np.reshape(X, [-1, 1]), np.reshape(Y, [-1, 1])), axis=1)
         Z = np.reshape(get_y(xy), [len(X), -1])
 
-        fp = plt.figure()
+        fp = plt.figure(dpi=100)
         ax = fp.gca(projection="3d")
         surf = ax.plot_surface(
             X, Y, Z - np.min(Z), cmap=cm.coolwarm, linewidth=0, antialiased=False
         )
-        ax.zaxis.set_major_locator(LinearLocator(5))
-        ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
-        fp.colorbar(surf, shrink=0.5, aspect=5)
+        # ax.zaxis.set_major_locator(LinearLocator(5))
+        # ax.zaxis.set_major_formatter(FormatStrFormatter("%.02f"))
+        position=fp.add_axes([0.93,0.1,0.02,0.35])
+        fp.colorbar(surf, shrink=0.5, aspect=5, cax=position)
         ax.scatter(
             train_inputs[:, 0], train_inputs[:, 1], R["y_train"] - np.min(R["y_train"])
         )
